@@ -1,11 +1,12 @@
 import * as functions from "firebase-functions";
 import {db} from "./admin";
 
+const docRef = db.collection("users");
 export const createProfile = async (userRecord:any) => {
-  const {email, phoneNumber, uid} = userRecord;
+  const {email, phoneNumber, displayName, uid} = userRecord;
 
   try {
-    return await db.collection("users").doc(uid).set({email, phoneNumber});
+    return await docRef.doc(uid).set({email, phoneNumber, displayName, uid});
   } catch (message) {
     return console.error(message);
   }
