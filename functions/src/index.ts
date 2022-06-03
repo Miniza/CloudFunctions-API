@@ -1,7 +1,6 @@
 import * as _createProfile from "./createProfile";
-import * as _getUserDimensions from "./userDimensions";
-import * as _updateUserDimensions from "./userDimensions";
-import * as _postUserDimensions from "./userDimensions";
+import * as _getUserInitialScores from "./userDimensions";
+import * as _postUserInitialScores from "./userDimensions";
 export const createProfile = _createProfile;
-export const getUserDimensions = _getUserDimensions;
-export const postUserDimensions = _postUserDimensions;
+export const getUserInitScores = _getUserInitialScores;
+export const postUserInitScores = _postUserInitialScores;

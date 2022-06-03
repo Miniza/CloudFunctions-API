@@ -1,10 +1,11 @@
 import * as functions from "firebase-functions";
 import express = require("express");
 import {db} from "./admin";
+import {firestore} from "firebase-admin";
 
 const app = express();
 
-export const getUserDimension = app.get("/:id", async (req:any, res:any) => {
+export const getUserInitScores = app.get("/:id", async (req:any, res:any) => {
   const docRef = db.collection("users").doc(req.params.id);
   try {
     const snapshot = await docRef.collection("InitialTest")
@@ -23,7 +24,7 @@ export const getUserDimension = app.get("/:id", async (req:any, res:any) => {
   }
 });
 
-export const postUserDimension = app.post("/", async (req:any, res:any) => {
+export const postUserInitScores = app.post("/", async (req:any, res:any) => {
   const userId = req.body.userId;
   const docRef = db.collection("users").doc(userId);
   const dimensions = req.body.Dimensions;
@@ -37,15 +38,16 @@ export const postUserDimension = app.post("/", async (req:any, res:any) => {
           .set({
             Name: doc.Name,
             Score: doc.Score,
+            Timestamp: firestore.Timestamp.now(),
           });
-      res.status(200).send(JSON.stringify(dimensions));
     });
+    res.status(200).send();
   } catch (error) {
     functions.logger.log(error);
   }
 });
 
 module.exports = {
-  dimensions: functions.https.onRequest(app),
+  dimensions: functions.runWith({timeoutSeconds: 120}).https.onRequest(app),
 };
 
