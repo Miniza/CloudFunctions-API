@@ -2,28 +2,10 @@ import * as functions from "firebase-functions";
 import express = require("express");
 import {db} from "./admin";
 import {firestore} from "firebase-admin";
+import {authenticate} from "./authenticate";
 
 const app = express();
 const database = db.firestore();
-const auth = db.auth();
-
-const authenticate = async (req:any, res:any, next:any) => {
-  if (!req.headers.authorization || !req.headers.authorization
-      .startsWith("Bearer ")) {
-    res.status(401).send("Unauthorized");
-    return;
-  }
-  const idToken = req.headers.authorization.split(" ")[1];
-  try {
-    const decodedIdToken = await auth.verifyIdToken(idToken);
-    req.user = decodedIdToken;
-    next();
-    return;
-  } catch (e) {
-    res.status(401).send("Unauthorized");
-    return;
-  }
-};
 
 app.use(authenticate);
 
