@@ -28,6 +28,7 @@ export const getUserInitScores = app.get("/:id", async (req:any, res:any) => {
   }
 });
 
+
 export const postUserInitScores = app.post("/", async (req:any, res:any) => {
   const userId = req.body.userId;
   const docRef = database.collection("users").doc(userId);
@@ -50,6 +51,7 @@ export const postUserInitScores = app.post("/", async (req:any, res:any) => {
     functions.logger.log(error);
   }
 });
+
 
 module.exports = {
   dimensions: functions.runWith({timeoutSeconds: 120}).https.onRequest(app),
