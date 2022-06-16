@@ -9,8 +9,8 @@ const database = db.firestore();
 
 app.use(authenticate);
 
-export const getUserInitScores = app.get("/:id", async (req:any, res:any) => {
-  const docRef = database.collection("users").doc(req.params.id);
+export const getUserInitScores = app.get("/", async (req:any, res:any) => {
+  const docRef = database.collection("users").doc(req.user.user_id);
   try {
     const snapshot = await docRef.collection("InitialTest")
         .doc("initialTest")
@@ -30,12 +30,10 @@ export const getUserInitScores = app.get("/:id", async (req:any, res:any) => {
 
 
 export const postUserInitScores = app.post("/", async (req:any, res:any) => {
-  const userId = req.body.userId;
-  const docRef = database.collection("users").doc(userId);
+  const docRef = database.collection("users").doc(req.user.user_id);
   const dimensions = req.body.Dimensions;
   try {
     dimensions.forEach((doc:any)=>{
-      console.log(doc);
       docRef.collection("InitialTest")
           .doc("initialTest")
           .collection("Dimensions")
@@ -51,7 +49,6 @@ export const postUserInitScores = app.post("/", async (req:any, res:any) => {
     functions.logger.log(error);
   }
 });
-
 
 module.exports = {
   dimensions: functions.runWith({timeoutSeconds: 120}).https.onRequest(app),

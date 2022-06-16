@@ -1,8 +1,8 @@
-
 import * as functions from "firebase-functions";
 import {db} from "./admin";
 
 const docRef = db.firestore().collection("users");
+
 export const createProfile = async (userRecord:any) => {
   const {email, displayName, uid} = userRecord;
   try {
