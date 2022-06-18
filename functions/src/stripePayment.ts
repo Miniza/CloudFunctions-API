@@ -2,6 +2,7 @@ import * as functions from "firebase-functions";
 import express = require("express");
 import {authenticate} from "./authenticate";
 import {db} from "./admin";
+import {firestore} from "firebase-admin";
 /* eslint-disable */
 const stripe = require("stripe")(functions.config().stripe.secret_key);
 const app = express();
@@ -53,6 +54,7 @@ export const stripeWebhook = async (req : any, res: any) => {
     paymentStatus: dataObject.payment_status,
     amountTotal: dataObject.amount_total,
     userId: dataObject.metadata.userId,
+    Timestamp: firestore.Timestamp.now(),
   });
 };
 

@@ -19,6 +19,3 @@ export const authenticate = async (req:any, res:any, next:any) => {
   }
 };
 
-module.exports = {
-  authenticate,
-};

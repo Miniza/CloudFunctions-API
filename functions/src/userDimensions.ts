@@ -15,6 +15,8 @@ export const getUserInitScores = app.get("/", async (req:any, res:any) => {
     const snapshot = await docRef.collection("InitialTest")
         .doc("initialTest")
         .collection("Dimensions")
+        .doc("ActiveDimensions")
+        .collection("AllDimensions")
         .get();
     const dimensions : any = [];
     snapshot.forEach((doc) => {
@@ -37,7 +39,9 @@ export const postUserInitScores = app.post("/", async (req:any, res:any) => {
       docRef.collection("InitialTest")
           .doc("initialTest")
           .collection("Dimensions")
-          .doc(doc.id)
+          .doc("ActiveDimensions")
+          .collection("AllDimensions")
+          .doc()
           .set({
             Name: doc.Name,
             Score: doc.Score,
